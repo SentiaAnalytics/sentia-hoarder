@@ -1,12 +1,12 @@
 'use strict';
-var MapsService = require('../services/MapsService'),
+var ReceiptsService = require('../services/ReceiptsService'),
   middleware = require('../middleware');
 
 
 exports.csv = {
   method : 'POST',
   handler : function (req) {
-    return MapsService.csv(req);
+    return ReceiptsService.csv(req);
   },
   middleware : []
 };
