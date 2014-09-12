@@ -6,7 +6,7 @@ var through = require('through'),
 
 exports.csv = function (req) {
   return new Promise(function (resolve, reject) {
-   db.getWriteStream('receipts')
+   db.getWriteStream('Receipt')
       .then(function (dbStream) {
         req.pipe(utils.bufferToString())
           .pipe(utils.splitLines())

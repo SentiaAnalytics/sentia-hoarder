@@ -6,7 +6,7 @@ var db = require('./postgres'),
 
 exports.csv = function (req) {
   return new Promise(function (resolve, reject) {
-    db.getWriteStream('maps')
+    db.getWriteStream('Map')
       .then(function (dbStream) {
         req.pipe(utils.bufferToString())
             .pipe(utils.splitLines())
