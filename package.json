@@ -2,7 +2,7 @@
   "name": "sentia-hoarder",
   "version": "0.0.1",
   "scripts": {
-    "start": "gulp",
+    "start": "node main.js",
     "test": "gulp test"
   },
   "dependencies": {
