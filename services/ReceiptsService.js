@@ -1,17 +1,16 @@
 'use strict';
 var through = require('through'),
-  Promise = require('bluebird'),
+  logger = require('bragi'),
   db = require('./postgres'),
   utils = require('./streamUtils');
 
 exports.csv = function (req) {
   return new Promise(function (resolve, reject) {
-   db.getWriteStream('Receipt')
+   db.getWriteStream('"Receipts"')
       .then(function (dbStream) {
         req.pipe(utils.bufferToString())
           .pipe(utils.splitLines())
-          .pipe(exports.transformCsv())
-          .pipe(utils.log())
+          .pipe(exports.transformCsv(req.query))
           .pipe(dbStream)
           .on('error', reject)
           .on('end', resolve);
@@ -19,7 +18,7 @@ exports.csv = function (req) {
   });
 };
 
-exports.transformCsv = function () {
+exports.transformCsv = function (query) {
   return through(function (row) {
     var data = row.split(';').map(function (column) {
       if (typeof column === 'string') {
@@ -28,8 +27,11 @@ exports.transformCsv = function () {
       return column;
     });
 
-    console.log('start time: ', data[8]);
-    console.log('end time: ' , data[9]);
+
+    data.splice(4, 1); // remove store
+    data.push(query.company); // add the company id
+    data.push(1); // add the store id
+    logger.log('debug:receipts', 'row :' + data.join(';'));
     this.emit('data',data.join(';') + '\n');
   });
 };

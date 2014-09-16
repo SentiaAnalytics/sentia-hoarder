@@ -1,13 +1,16 @@
 'use strict';
 var express = require('express'),
-  config = require('config'),
+  logger = require('bragi'),
   middleware = require('./middleware'),
   bodyParser = require('body-parser'),
   routeloader = require('express-routeloader'),
   app = express();
 
 // app.use(session({secret: 'alskjdflakjd'}));
-
+app.use(function (req, res, next) {
+  logger.log('http:' + req.url, 'Incomming request');
+  return next();
+});
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 

@@ -40,7 +40,7 @@ exports.query = function(sqlquery) {
         if (err) {
           reject(err);
         } else {
-          resolve(result);
+          resolve(result.rows);
         }
       });
     });
@@ -50,7 +50,7 @@ exports.query = function(sqlquery) {
 exports.getReadStream = function(table) {
   return createConnection()
     .then(function(connection) {
-      var stream = connection.client.query(copyTo('COPY ' + table + " FROM STDOUT DELIMITER ';' CSV"));
+      var stream = connection.client.query(copyTo('COPY ' + table + ' FROM STDOUT DELIMITER \';\' CSV'));
       stream.on('end', function () {
         connection.repool();
       });
@@ -61,7 +61,7 @@ exports.getReadStream = function(table) {
 exports.getWriteStream = function(table) {
   return createConnection()
     .then(function(connection) {
-      var stream = connection.client.query(copyFrom('COPY ' + table + " FROM STDIN DELIMITER ';' CSV"));
+      var stream = connection.client.query(copyFrom('COPY ' + table + ' FROM STDIN DELIMITER \';\' CSV'));
       stream.on('end', function () {
         connection.repool();
       });

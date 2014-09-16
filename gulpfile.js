@@ -23,7 +23,7 @@ gulp.task('watch', function() {
       'server.js',
       'routes/**/*.js',
       'services/**/*.js',
-      'test/**/*.js'
+      'test/unit/*.js'
     ], ['unit']);
 });
 

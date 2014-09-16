@@ -1,6 +1,5 @@
 'use strict';
-var ReceiptsService = require('../services/ReceiptsService'),
-  middleware = require('../middleware');
+var ReceiptsService = require('../services/ReceiptsService');
 
 
 exports.csv = {

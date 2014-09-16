@@ -1,12 +1,12 @@
 'use strict';
 var db = require('./postgres'),
-  Promise = require('bluebird'),
+  P = require('bluebird'),
   utils = require('./streamUtils'),
   through = require('through');
 
 exports.csv = function (req) {
-  return new Promise(function (resolve, reject) {
-    db.getWriteStream('Map')
+  return new P(function (resolve, reject) {
+    db.getWriteStream('Maps')
       .then(function (dbStream) {
         req.pipe(utils.bufferToString())
             .pipe(utils.splitLines())
@@ -34,4 +34,4 @@ exports.jsonToCsvStream = function (data) {
     stream.write(row.join(';'));
   });
   return stream;
-}
+};
