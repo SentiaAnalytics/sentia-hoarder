@@ -1,11 +1,12 @@
 'use strict';
 var through = require('through'),
   logger = require('bragi'),
+  P = require('bluebird'),
   db = require('./postgres'),
   utils = require('./streamUtils');
 
 exports.csv = function (req) {
-  return new Promise(function (resolve, reject) {
+  return new P(function (resolve, reject) {
    db.getWriteStream('"Receipts"')
       .then(function (dbStream) {
         req.pipe(utils.bufferToString())
