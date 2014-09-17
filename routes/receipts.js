@@ -7,7 +7,7 @@ exports.csv = {
   handler : function (req, res, next) {
     return ReceiptsService.csv(req)
       .catch(next)
-      .done(function (data) {
+      .done(function () {
         return res.status(200).send('OK');
     });
   },

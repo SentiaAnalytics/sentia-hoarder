@@ -1,16 +1,17 @@
 'use strict';
 var db = require('./postgres'),
   P = require('bluebird'),
+  logger = require('bragi'),
   utils = require('./streamUtils'),
   through = require('through');
 
 exports.csv = function (req) {
   return new P(function (resolve, reject) {
-    db.getWriteStream('Maps')
+    db.getWriteStream('"Maps"')
       .then(function (dbStream) {
         req.pipe(utils.bufferToString())
             .pipe(utils.splitLines())
-            .pipe(utils.log())
+            .pipe(exports.transformCsv(req.query))
             .pipe(dbStream)
             .on('error', reject)
             .on('end', resolve);
@@ -19,19 +20,11 @@ exports.csv = function (req) {
 
 };
 
-exports.jsonToCsvStream = function (data) {
-  var stream = through();
-  data.data.forEach(function (e) {
-    var row = [
-      e.x,
-      e.y,
-      e.dx,
-      e.dy,
-      e.heat.
-      data.cam.
-      data.company
-    ];
-    stream.write(row.join(';'));
+exports.transformCsv = function (query) {
+  return through(function (row) {
+    var data = row.split(';');
+    data.push(query.company); // add the company id
+    logger.log('debug:maps', 'row :' + data.join(';'));
+    this.emit('data',data.join(';') + '\n');
   });
-  return stream;
 };
