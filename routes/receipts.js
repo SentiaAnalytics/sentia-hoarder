@@ -8,7 +8,7 @@ exports.csv = {
     return ReceiptsService.csv(req)
       .catch(next)
       .done(function (data) {
-        return res.send(data);
+        return res.status(200).send('OK');
     });
   },
   middleware : []
