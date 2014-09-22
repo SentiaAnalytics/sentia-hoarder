@@ -29,7 +29,7 @@ auth._buildQuery = function (key) {
   return squel.select()
     .field('"CompanyId"')
     .from('"Apikeys"')
-    .where('"Key" = ?', key)
+    .where('"key" = ?', key)
     .toString();
 };
 auth._getFirstRow = function (rows) {

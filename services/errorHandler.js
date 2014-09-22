@@ -4,8 +4,9 @@ module.exports = function (err, req, res, next) {
     return next();
   }
     // console.error(err.stack);
-  if (err.code) {
-    return res.status(err.code)
+  if (err.statusCode && err.statusCode < 600) {
+    console.log(err.statusCode);
+    return res.status(err.statusCode)
       .send(err.message);
   }
   console.log(err);
