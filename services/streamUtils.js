@@ -7,17 +7,22 @@ exports.bufferToString = function () {
 };
 exports._bufferToStringChunk = function (chunk) {
   if (chunk) {
-    logger.log('debug:streamUtils', 'convert to string:', + chunk.toString());
-    this.emit('data', chunk.toString());
+    // logger.log('debug:streamUtils', 'convert to string:', + chunk.toString());
+    this.queue(chunk.toString());
   }
 };
 exports.splitLines = function () {
+  var buffer = '';
   return through(function (chunk) {
-    var rows = chunk.split('\n'), i;
+    var rows, i;
+    chunk = buffer + chunk;
+    rows = chunk.split('\n');
+    logger.log('debug:stream', 'chunk '+ chunk);
+    buffer = rows.pop();
     for( i= 0; i < rows.length; i += 1) {
       if (rows[i]) {
-        logger.log('debug:stramUtils','line :' + rows[i]);
-        this.emit('data', rows[i]);
+        // logger.log('debug:stramUtils','line :' + rows[i]);
+        this.queue(rows[i]);
       }
     }
   });

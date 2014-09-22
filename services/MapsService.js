@@ -25,6 +25,6 @@ exports.transformCsv = function (query) {
     var data = row.split(';');
     data.push(query.company); // add the company id
     logger.log('debug:maps', 'row :' + data.join(';'));
-    this.emit('data',data.join(';') + '\n');
+    this.queue(data.join(';') + '\n');
   });
 };
