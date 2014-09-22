@@ -11,7 +11,7 @@ describe('Auth', function () {
   describe('_buildQuery', function () {
     it('should return a query', function () {
       var result = target._buildQuery('key');
-      result.should.equal('SELECT "CompanyId" FROM "Apikeys" WHERE ("Key" = \'key\')');
+      result.should.equal('SELECT "CompanyId" FROM "Apikeys" WHERE ("key" = \'key\')');
     });
   });
 

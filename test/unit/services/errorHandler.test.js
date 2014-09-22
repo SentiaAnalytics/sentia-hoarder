@@ -18,7 +18,7 @@ describe('errorHandler', function () {
       };
       next = sinon.spy();
       error = {
-        code : 400,
+        statusCode : 400,
         message : 'Invalid input'
       };
       target(error, null, res, next);
