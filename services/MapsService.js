@@ -12,9 +12,16 @@ exports.csv = function (req) {
         req.pipe(utils.bufferToString())
             .pipe(utils.splitLines())
             .pipe(exports.transformCsv(req.query))
+            .pipe(utils.log())
             .pipe(dbStream)
-            .on('error', reject)
-            .on('end', resolve);
+            .on('error', function (err) {
+              logger.log('maps:debug', 'ERROR:' + err);
+              reject(err);
+            })
+            .on('end', function (data) {
+              logger.log('debug', 'csv stream done: ' + data);
+              resolve(data);
+            });
       });
   });
 

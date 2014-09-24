@@ -27,3 +27,10 @@ exports.splitLines = function () {
     }
   });
 };
+
+exports.log = function () {
+ return through(function (chunk) {
+   logger.log('Utils:debug', chunk);
+   this.queue(chunk);
+ });
+};
